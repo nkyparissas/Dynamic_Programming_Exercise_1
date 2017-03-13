@@ -26,8 +26,8 @@ typedef struct graph{
 
 /*
 * OPT[][]: a 2D array holding the optimal cost. 
-* OPT[i,j]: the optimal cost from node i to the destination (finishing node) through node j 
-* OPT[i,numberOfNodes-1]: the optimal cost from node i to the destination through the most 
+* OPT[i][j]: the optimal cost from node i to the destination (finishing node) through node j 
+* OPT[i][numberOfNodes-1]: the optimal cost from node i to the destination through the most 
 * cost-efficient option (minimum of cost values).  
 * nextNode[]: a 1D array holding the node-to-choose from node i for the most cost-efficient 
 * path to the destination.

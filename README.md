@@ -17,7 +17,7 @@
 	numberOfNodes = 0; //συνολικός αριθμός κόμβων
 	for( i = 0; i == numberOfVa8m; i++){
 		//fill B[i]
-		numberOfNodes++;
+		//update numberOfNodes
 	}	
 	```
 	![](exampletables/1_B_table.png) 
@@ -55,7 +55,7 @@
 	```
 	printGraph(){
 		for (i = 0; i < max; i++){
-			for (j = 0; j == numberOfVa8m; j++){
+			for (j = 0; j < numberOfVa8m; j++){
 				if(G[i,j] > -1) print G[i,j]
 				else print " "
 			}
@@ -68,7 +68,7 @@
 	```
 	for (i = 0; i < numberOfNodes; i++){
 		for(j = 0; j <numberOfNodes; j++){
-			if (i < j ) Cost[i,j] = -1; //κάτω τριγωνικός
+			if (i > j ) Cost[i,j] = -1; //κάτω τριγωνικός
 			else if (i = j ) Cost[i,j] = 0; //διαγώνιος
 			else {
 				print is there a path from node i to node j ?
@@ -92,20 +92,20 @@
 	```
 		/*
 		* initialize OPT table
-		* copy -1 and 0 values
+		* copy Cost table
 		*/
 		for (i = 0; i < numberOfNodes; i++){
-			for (j = 0; j < numberOfNodes - 1; j++){ //exclude last column
-				if (Cost[i,j] <= 0) OPT[i,j] = Cost[i,j];
+			for (j = 0; j < numberOfNodes ; j++){ 
+					 OPT[i,j] = Cost[i,j];
 			}
 		}
-		OPT[numberOfNodes-1, numberOfNodes-1] = 0; //στοιχείο της διαγωνίου τελευταίας στήλης
+		
 				
-		for( i = numberOfNodes-1; i<0; i++){
+		for( i = numberOfNodes-1; i>=0; i--){
 			min = + 20000000000000000 //arbitrarily large number
-			for( j = 0; j < numberOfNodes-1; j++){
-				if (OPT[i,j]<=0) continue;
-				else {
+			for( j = 0; j < numberOfNodes; j++){
+				if (COST[i,j]>0){
+				
 					OPT[i,j] = Cost[i,j] + OPT[j,numberOfNodes-1];
 					if (OPT[i,j] <= min {
 						OPT[i,numberOfNodes-1] = OPT[i,j];

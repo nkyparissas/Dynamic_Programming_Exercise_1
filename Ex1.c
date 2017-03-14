@@ -123,7 +123,7 @@ graph fill(int selection){
 	graph ourGraph;
 	
 	FILE *inputfile;
-    inputfile = fopen("graph2.txt", "r");
+	inputfile = fopen("graph2.txt", "r");
 	
 	if (selection == 1){ //Manual fill
 		printf("Number of graph's levels: \n");
@@ -141,7 +141,7 @@ graph fill(int selection){
 		* Filling array B and finding max.
 		* B[]: a 1D array holding the number of nodes per level.
 	*/
-    for (i = 0; i < numberOfVa8m; i++){
+    	for (i = 0; i < numberOfVa8m; i++){
 		if (selection == 1){
 			printf("Number of nodes for level %d: \n", i);
 			scanf("%d", &B[i]);
@@ -178,12 +178,12 @@ graph fill(int selection){
 	//Printing the graph's array G
 	printf("Graph's nodes: \n");
 	for (i = 0; i < max; i++){
-    	for(j = 0; j < numberOfVa8m; j++)
+		for(j = 0; j < numberOfVa8m; j++)
 			if (ourGraph.G[i][j] == -1 )
 				printf("\t");
-		else
-			printf("%5d\t", ourGraph.G[i][j]);
-			printf("\n");
+			else
+				printf("%5d\t", ourGraph.G[i][j]);
+				printf("\n");
 	}
 	
 	ourGraph.Cost = (int **)malloc(ourGraph.numberOfNodes * sizeof(int *)); 	
@@ -192,13 +192,13 @@ graph fill(int selection){
  	
 	//Filling the Cost 2D array
 	for (i = 0; i < ourGraph.numberOfNodes; i++){
-    	for(j = 0; j <ourGraph.numberOfNodes; j++){
-        	if (i > j ) ourGraph.Cost[i][j] = -1; //Lower triangular
-        	else if (i == j ) ourGraph.Cost[i][j] = 0; //main diagonal
-        	else {
-        		if (selection == 1){ //Manual fill
+		for(j = 0; j <ourGraph.numberOfNodes; j++){
+			if (i > j ) ourGraph.Cost[i][j] = -1; //Lower triangular
+			else if (i == j ) ourGraph.Cost[i][j] = 0; //main diagonal
+			else {
+				if (selection == 1){ //Manual fill
 					printf("Cost from node %d to node %d (if not applicable, insert -1): \n", i, j);
-            		scanf("%d", &(ourGraph.Cost[i][j]));
+					scanf("%d", &(ourGraph.Cost[i][j]));
 				}	
 				else //Fill from file
 					fscanf(inputfile, "%d", &(ourGraph.Cost[i][j]));
@@ -218,9 +218,9 @@ void printCostTable(graph ourGraph){
 	printf("This is the costs table: \n");
 	
 	for (i = 0; i < ourGraph.numberOfNodes; i++){
-    	for(j = 0; j < ourGraph.numberOfNodes; j++)
+    		for(j = 0; j < ourGraph.numberOfNodes; j++)
 			printf("%5d\t", ourGraph.Cost[i][j]);
-    	printf("\n");
+    		printf("\n");
 	} 	
 	
 	return;
@@ -235,12 +235,12 @@ solution solve(graph ourGraph){
  	for (i = 0; i < ourGraph.numberOfNodes; i++)
 		assert(ourSolution.OPT[i] = (int *)malloc(ourGraph.numberOfNodes * sizeof(int)));
 	
-    ourSolution.nextNode = (int *)malloc(ourGraph.numberOfNodes * sizeof(int ));
+    	ourSolution.nextNode = (int *)malloc(ourGraph.numberOfNodes * sizeof(int ));
 	
 	//Create a copy of Cost array to apply our Dynamic Programming algorithm on it
-    for (i=0;i<ourGraph.numberOfNodes; i++){
-    	for (j=0; j<ourGraph.numberOfNodes; j++){
-    		ourSolution.OPT[i][j]=ourGraph.Cost[i][j];
+    	for (i=0;i<ourGraph.numberOfNodes; i++){
+    		for (j=0; j<ourGraph.numberOfNodes; j++){
+    			ourSolution.OPT[i][j]=ourGraph.Cost[i][j];
 		}
 	}	
 	
@@ -248,30 +248,30 @@ solution solve(graph ourGraph){
 		* Dynamic Programming Algorithm
 		* OPT[i][j] = the immediate transition cost from node i to node j + the optimal cost from node j to the destination
 	*/
-    for(i = ourGraph.numberOfNodes-1; i>=0; i--){ //Bottom-up solution
-        int min = 999999999; //Arbitrarily large number
-     	for( j = 0; j < ourGraph.numberOfNodes; j++){
-     		if (ourGraph.Cost[i][j]>0){ 
-                ourSolution.OPT[i][j] = ourGraph.Cost[i][j] + ourSolution.OPT[j][ourGraph.numberOfNodes-1];
-                if (ourSolution.OPT[i][j] <= min){
-                    ourSolution.OPT[i][ourGraph.numberOfNodes-1] = ourSolution.OPT[i][j];
-                    min = ourSolution.OPT[i][j];
-                    ourSolution.nextNode[i] = j;                    
+    	for(i = ourGraph.numberOfNodes-1; i>=0; i--){ //Bottom-up solution
+        	int min = 999999999; //Arbitrarily large number
+     		for( j = 0; j < ourGraph.numberOfNodes; j++){
+     			if (ourGraph.Cost[i][j]>0){ 
+                		ourSolution.OPT[i][j] = ourGraph.Cost[i][j] + ourSolution.OPT[j][ourGraph.numberOfNodes-1];
+                		if (ourSolution.OPT[i][j] <= min){
+                    			ourSolution.OPT[i][ourGraph.numberOfNodes-1] = ourSolution.OPT[i][j];
+                    			min = ourSolution.OPT[i][j];
+                    			ourSolution.nextNode[i] = j;                    
 				}
 			}
 		}
 	}	
     
-    //If you are at the last node, remain.
-    ourSolution.nextNode[ourGraph.numberOfNodes-1] = ourGraph.numberOfNodes-1;
+    	//If the last node is reached, remain there.
+    	ourSolution.nextNode[ourGraph.numberOfNodes-1] = ourGraph.numberOfNodes-1;
     
-    //Printing OPT Array
+    	//Printing OPT Array
 	/*
-		for (i = 0; i < ourGraph.numberOfNodes; i++){
-    	for(j = 0; j < ourGraph.numberOfNodes; j++)
-		printf("%5d\t", ourSolution.OPT[i][j]);
-    	printf("\n");
-		}
+	for (i = 0; i < ourGraph.numberOfNodes; i++){
+    		for(j = 0; j < ourGraph.numberOfNodes; j++)
+			printf("%5d\t", ourSolution.OPT[i][j]);
+    		printf("\n");
+	}
 	*/
 	
 	return ourSolution;
@@ -286,22 +286,22 @@ void bestCost(int startNode, solution ourSolution, graph ourGraph){
 
 void bestPath(int startNode, solution ourSolution, graph ourGraph){
     
-	printf("The best bath from node %d: ", startNode);
+	printf("The best path from node %d: ", startNode);
     
 	int visitNextNode = ourSolution.nextNode[startNode];
     
-    printf("%d ", visitNextNode);
+    	printf("%d ", visitNextNode);
 	do{
 		visitNextNode =  ourSolution.nextNode[visitNextNode];
-        printf("%d ", visitNextNode);
+        	printf("%d ", visitNextNode);
 	}while(visitNextNode != ourGraph.numberOfNodes-1);
     
-    return;
+	return;
 } 
 
 void freeGraph(graph ourGraph, solution ourSolution){
 	
-    int i;
+    	int i;
     
 	for (i = 0; i < ourGraph.numberOfNodes; i++) {
 		free(ourGraph.Cost[i]); 
@@ -309,9 +309,9 @@ void freeGraph(graph ourGraph, solution ourSolution){
 	}
     
 	free(ourGraph.Cost);
-    free(ourSolution.OPT);
-    free(ourSolution.nextNode); 
-    free(ourGraph.G); 
+    	free(ourSolution.OPT);
+	free(ourSolution.nextNode); 
+    	free(ourGraph.G); 
 	
-    return;
+    	return;
 }
